@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Lighting
-  m_Shader: {fileID: 4800000, guid: 94ec71350040d75458529e4e6d898856, type: 3}
+  m_Name: Grass_albedo
+  m_Shader: {fileID: 4800000, guid: d60498b9a99d853409c5f45d5a1801d4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,14 +23,17 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _HeightMap:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+        m_Texture: {fileID: 2800000, guid: 716c31773ef71fe4aaaf1a1c1eb716bb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AmbientIntensity: 0.4
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _MaxHeight: 6.12
+    m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

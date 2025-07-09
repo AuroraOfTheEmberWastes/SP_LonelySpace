@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class TextureGeneration : MonoBehaviour
 {
-	public enum PatternType { Noise, None, Mandelbrot, LocationColor, CenterDot, CheckerBoard, Rainbow, Sin };
+	public enum PatternType { Noise, None, Mandelbrot, LocationColor, CenterDot, CheckerBoard, Rainbow, Sin , Water};
 
 	public PatternType patternType;
+
+	public float scale = 1;
 
 	const int SIZE = 1024;
 
@@ -28,6 +30,8 @@ public class TextureGeneration : MonoBehaviour
 	Color CalculatePixelColor(float u, float v, PatternType pattern)
 	{
 		// TODO Exercise 1: insert your own pattern creation code here:
+
+
 		switch (pattern)
 		{
 			case PatternType.Noise: // white noise				
@@ -54,6 +58,21 @@ public class TextureGeneration : MonoBehaviour
 				result.r = (Mathf.Cos(u * 2 * Mathf.PI) + 1) / 2;
 				result.g = (Mathf.Cos(u * 2 * Mathf.PI + Mathf.PI * 2 / 3) + 1) / 2;
 				result.b = (Mathf.Cos(u * 2 * Mathf.PI + Mathf.PI * 4 / 3) + 1) / 2;
+				return result;
+			case PatternType.Water:
+				result = Color.black;
+
+				float noise = Mathf.PerlinNoise(u / scale, v / scale);
+				if (noise > 0.45 && noise < 0.6) result += new Color(noise, noise, noise);
+				else if (noise < 0.45) result += new Color(0, noise / 2, noise);
+				else result += new Color(0, noise / 2, noise);
+
+				noise = Mathf.PerlinNoise(noise, noise);
+				if (noise > 0.45 && noise < 0.6) result += new Color(noise * 0.7f, noise * 0.7f, noise * 0.7f);
+				else if (noise < 0.45) result += new Color(0, noise / 2, noise);
+				else result += new Color(0, noise / 3, noise);
+
+
 				return result;
 			default:
 				return Color.blue;
