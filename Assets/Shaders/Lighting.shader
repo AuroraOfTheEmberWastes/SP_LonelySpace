@@ -69,17 +69,22 @@ Shader "CustomRenderTexture/Lighting"
 				float4 ambient = _AmbientIntensity * lightColor;
 
 				// diffuse
+
 				float diffuseStrength = max(0,dot(i.normal, _WorldSpaceLightPos0.xyz));
 				float4 diffuse = diffuseStrength * lightColor * _DiffuseIntensity;
 
 
 				// specular
-
-				float4 specular;
+				// _WorldSpaceCameraPos
+				float3 camera = normalize(_WorldSpaceCameraPos);
+				float3 reflection = normalize(reflect(-_WorldSpaceLightPos0.xyz, i.normal));
+				float specularStrength = max(0,dot(camera, reflection));
+				specularStrength = pow(specularStrength,32);
+				float4 specular = specularStrength * lightColor * _SpecularIntensity;
 
 
 				//putting it together
-				float4 lighting = ambient + diffuse;
+				float4 lighting = ambient + diffuse + specular;
 				albedo = albedo * lighting;
 
 				return albedo;
