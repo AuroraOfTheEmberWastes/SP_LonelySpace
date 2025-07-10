@@ -26,7 +26,7 @@ Shader "CustomRenderTexture/Lighting"
 			struct appdata
 			{
 				float4 vertex : POSITION;
-				float4 normal : NORMAL;
+				float3 normal : NORMAL;
 				float2 uv : TEXCOORD0;
 			};
 
@@ -50,7 +50,7 @@ Shader "CustomRenderTexture/Lighting"
 				o.uv = v.uv;
 				// TODO: You probably need to pass more information to the fragment shader...
 
-				o.normal = normalize(v.normal.xyz);
+				o.normal = normalize(mul(unity_ObjectToWorld, float4(v.normal,0)).xyz);
 
 				return o;
 			}
@@ -76,11 +76,15 @@ Shader "CustomRenderTexture/Lighting"
 
 				// specular
 				// _WorldSpaceCameraPos
-				float3 camera = normalize(_WorldSpaceCameraPos);
-				float3 reflection = normalize(reflect(-_WorldSpaceLightPos0.xyz, i.normal));
-				float specularStrength = max(0,dot(camera, reflection));
-				specularStrength = pow(specularStrength,32);
-				float4 specular = specularStrength * lightColor * _SpecularIntensity;
+				float4 specular = 0;
+				if (diffuseStrength != 0)
+				{
+					float3 camera = normalize(_WorldSpaceCameraPos);
+					float3 reflection = normalize(reflect(-_WorldSpaceLightPos0.xyz, i.normal));
+					float specularStrength = max(0,dot(camera, reflection));
+					specularStrength = pow(specularStrength,8);
+					specular = specularStrength * lightColor * _SpecularIntensity;
+				}
 
 
 				//putting it together
